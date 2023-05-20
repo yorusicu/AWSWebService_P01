@@ -1,6 +1,6 @@
-package com.aws.web.web.controller;
+package com.aws.web.demo.controller;
 
-import com.aws.web.web.controller.dto.HellodResponseDto;
+import com.aws.web.demo.controller.dto.HellodResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
