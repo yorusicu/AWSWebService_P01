@@ -22,25 +22,25 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    // consoleLog Query 출력
-//    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+
+    testImplementation 'org.projectlombok:lombok:1.18.22'
 
     compileOnly 'org.projectlombok:lombok'
 
     annotationProcessor 'org.projectlombok:lombok'
-    // MySQL
-//    runtimeOnly 'com.mysql:mysql-connector-j'
+
     // h2
-    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2:1.4.197'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // Junit4
-//    testImplementation("org.junit.vintage:junit-vintage-engine") {
-//        exclude group: "org.hamcrest", module: "hamcrest-core"
-//    }
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    // Slf4j
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
