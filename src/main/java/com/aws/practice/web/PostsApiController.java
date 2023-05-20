@@ -1,19 +1,44 @@
 package com.aws.practice.web;
 
 import com.aws.practice.service.posts.PostsService;
+import com.aws.practice.web.dto.PostsResponseDto;
 import com.aws.practice.web.dto.PostsSaveRequestDto;
+import com.aws.practice.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1")
 public class PostsApiController {
-    private final PostsService postsService;
+    private final PostsService postsServ;
 
-    @PostMapping("/api/v1/posts")
+    /**
+     * Post등록
+     * @param reqDto request
+     * */
+    @PostMapping("/posts")
     public Long save(@RequestBody PostsSaveRequestDto reqDto){
-        return postsService.save(reqDto);
+        return postsServ.save(reqDto);
     }
+
+    /**
+     * Post수정
+     * @param id ID
+     * @param reqDto request
+     * */
+    @PutMapping("/posts/{id}")
+    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto reqDto){
+        return postsServ.update(id, reqDto);
+    }
+
+    /**
+     * PostId조회
+     * @param id ID
+     * */
+    @GetMapping("/posts/{id}")
+    public PostsResponseDto findById(@PathVariable Long id){
+        return postsServ.findById(id);
+    }
+
 }
