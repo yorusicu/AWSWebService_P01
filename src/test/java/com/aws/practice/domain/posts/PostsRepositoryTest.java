@@ -1,4 +1,4 @@
-package com.aws.web.domain.posts;
+package com.aws.practice.domain.posts;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
