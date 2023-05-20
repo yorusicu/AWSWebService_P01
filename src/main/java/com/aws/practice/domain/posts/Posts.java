@@ -1,4 +1,4 @@
-package com.aws.web.domain.posts;
+package com.aws.practice.domain.posts;
 
 import lombok.Builder;
 import lombok.Getter;

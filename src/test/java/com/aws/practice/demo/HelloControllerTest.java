@@ -1,4 +1,4 @@
-package com.aws.web.demo.controller;
+package com.aws.practice.demo;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

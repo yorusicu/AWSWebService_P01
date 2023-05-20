@@ -1,4 +1,4 @@
-package com.aws.web.demo.controller.dto;
+package com.aws.practice.demo.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

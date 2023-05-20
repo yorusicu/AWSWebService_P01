@@ -1,4 +1,4 @@
-package com.aws.web.domain.posts;
+package com.aws.practice.domain.posts;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
