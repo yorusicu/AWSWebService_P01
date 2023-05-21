@@ -3,17 +3,16 @@ package com.aws.practice.domain.posts;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
-@ToString
 @Getter
 @NoArgsConstructor
 @Entity
 public class Posts extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "")
     private Long postId;
 
     @Column(length = 50, nullable = false)

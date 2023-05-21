@@ -6,8 +6,12 @@ import com.aws.practice.web.dto.PostsResponseDto;
 import com.aws.practice.web.dto.PostsSaveRequestDto;
 import com.aws.practice.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -27,39 +31,50 @@ public class PostsService {
 
     /**
      * Post수정
-     * @param id ID
+     * @param postId postId
      * @param reqDto request
      * @return id
      * */
     @Transactional
-    public Long update(Long id, PostsUpdateRequestDto reqDto) {
+    public Long update(Long postId, PostsUpdateRequestDto reqDto) {
         // DB에 id를 조회해 없으면 에러메세지를 띄움
-        Posts posts = postsRepo.findById(id).orElseThrow(() -> new IllegalArgumentException((errMsg + id)));
+        Posts posts = postsRepo.findById(postId).orElseThrow(() -> new IllegalArgumentException((errMsg + postId)));
 
         posts.update(reqDto.getTitle(), reqDto.getContent());
 
-        return id;
+        return postId;
     }
 
     /**
      * Post조회(단건)
-     * @param id ID
+     * @param postId postId
      * @return postsResponseDto
      * */
-    public PostsResponseDto findByPostId(Long id) {
-        Posts entity = postsRepo.findById(id).orElseThrow(() -> new IllegalArgumentException(errMsg + id));
+    public PostsResponseDto findByPostId(Long postId) {
+        Posts entity = postsRepo.findById(postId).orElseThrow(() -> new IllegalArgumentException(errMsg + postId));
 
         return new PostsResponseDto(entity);
     }
 
     /**
      * Post조회
-     * @param id ID
-     * @return postsResponseDto
+     * @return List<PostsResponseDto>
      * */
-    public PostsResponseDto findAllPost(Long id) {
-        Posts entity = postsRepo.findById(id).orElseThrow(() -> new IllegalArgumentException(errMsg + id));
+    public List<PostsResponseDto> findAllPost() {
+        List<Posts> postsList = postsRepo.findAll();
 
-        return null;
+        List<PostsResponseDto> list = new ArrayList<>();
+
+        for (Posts entity:
+             postsList) {
+            PostsResponseDto dto = new PostsResponseDto(entity);
+            BeanUtils.copyProperties(entity, dto);
+            if (dto.getReplCnt() == null) { dto.setReplCnt(0L);}
+            if (dto.getLikeCnt() == null) { dto.setLikeCnt(0L);}
+
+            list.add(dto);
+        }
+
+        return list;
     }
 }
