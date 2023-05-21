@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @Setter
 @Getter
@@ -13,8 +15,9 @@ public class PostsResponseDto {
     private String title;
     private String content;
     private String author;
-    private Long ReplCnt;
-    private Long LikeCnt;
+    private Long replCnt;
+    private Long likeCnt;
+    private List<ReplsResponseDto> replsList;
 
     public PostsResponseDto(Posts entity) {
         this.postId = entity.getPostId();
