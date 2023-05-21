@@ -100,4 +100,5 @@ class PostsServiceTest {
         }
         log.info("list:{}", list);
     }
+
 }

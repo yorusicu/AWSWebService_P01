@@ -3,10 +3,8 @@ package com.aws.practice.service.posts;
 import com.aws.practice.domain.posts.Posts;
 import com.aws.practice.domain.posts.PostsRepository;
 import com.aws.practice.domain.posts.Repls;
-import com.aws.practice.web.dto.PostsResponseDto;
-import com.aws.practice.web.dto.PostsSaveRequestDto;
-import com.aws.practice.web.dto.PostsUpdateRequestDto;
-import com.aws.practice.web.dto.ReplsResponseDto;
+import com.aws.practice.domain.posts.ReplsRepository;
+import com.aws.practice.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +18,7 @@ import java.util.List;
 @Service
 public class PostsService {
     private final PostsRepository postsRepo;
+    private final ReplsRepository replsRepo;
 
     String errMsg = "해당 게시글이 없습니다.";
 
@@ -28,7 +27,7 @@ public class PostsService {
      * @param reqDto request
     * */
     @Transactional
-    public Long save(PostsSaveRequestDto reqDto) {
+    public Long createPost(PostsSaveRequestDto reqDto) {
         return postsRepo.save(reqDto.toEntity()).getPostId();
     }
 
@@ -100,5 +99,25 @@ public class PostsService {
         log.info("list:{}", list);
 
         return list;
+    }
+
+    /**
+     * Repl등록
+     * @param reqDto request
+     * */
+    @Transactional
+    public Long createRepl(Long postId, ReplsSaveRequestDto reqDto) {
+        log.info("postId: {}", postId);
+        log.info("ReqDto: {}", reqDto);
+        // Posts 조회
+        Posts posts = postsRepo.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException((errMsg + postId)));
+
+        Repls repls = reqDto.toEntity(posts);
+        log.info("repls.getPostId(): {}", repls.getPosts().getPostId());
+
+        Repls saveRepl = replsRepo.save(repls);
+
+        return saveRepl.getReplId();
     }
 }

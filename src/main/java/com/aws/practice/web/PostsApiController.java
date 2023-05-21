@@ -4,6 +4,7 @@ import com.aws.practice.service.posts.PostsService;
 import com.aws.practice.web.dto.PostsResponseDto;
 import com.aws.practice.web.dto.PostsSaveRequestDto;
 import com.aws.practice.web.dto.PostsUpdateRequestDto;
+import com.aws.practice.web.dto.ReplsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,8 @@ public class PostsApiController {
      * @param reqDto request
      * */
     @PostMapping("/c-posts")
-    public Long save(@RequestBody PostsSaveRequestDto reqDto){
-        return postsServ.save(reqDto);
+    public Long createPost(@RequestBody PostsSaveRequestDto reqDto){
+        return postsServ.createPost(reqDto);
     }
 
     /**
@@ -49,9 +50,16 @@ public class PostsApiController {
      * */
     @GetMapping("/r-posts")
     public List<PostsResponseDto> findAllPost(){
-        List<PostsResponseDto> list = postsServ.findAllPost();
 
-        return list;
+        return postsServ.findAllPost();
     }
 
+    /**
+     * Repl등록
+     * @param reqDto request
+     * */
+    @PostMapping("/c-repls/{postId}")
+    public Long createRepl(@PathVariable Long postId, @RequestBody ReplsSaveRequestDto reqDto){
+        return postsServ.createRepl(postId, reqDto);
+    }
 }
