@@ -32,7 +32,6 @@ class PostsRepositoryTest {
     @Test
     void testBringWrite() {
         // given
-
         postsRepo.save(Posts.builder()
                 .title(title)
                 .content(content)

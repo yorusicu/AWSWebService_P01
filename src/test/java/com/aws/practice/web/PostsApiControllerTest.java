@@ -74,7 +74,7 @@ class PostsApiControllerTest {
                 .author("author")
                 .build());
 
-        Long updateId = updatePosts.getId();
+        Long updateId = updatePosts.getPostId();
         String expectedTitle = "expectedTitle";
         String expectedContent = "expectedContent";
 

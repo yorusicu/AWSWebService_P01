@@ -22,7 +22,7 @@ public class PostsService {
     * */
     @Transactional
     public Long save(PostsSaveRequestDto reqDto) {
-        return postsRepo.save(reqDto.toEntity()).getId();
+        return postsRepo.save(reqDto.toEntity()).getPostId();
     }
 
     /**
@@ -42,13 +42,24 @@ public class PostsService {
     }
 
     /**
+     * Post조회(단건)
+     * @param id ID
+     * @return postsResponseDto
+     * */
+    public PostsResponseDto findByPostId(Long id) {
+        Posts entity = postsRepo.findById(id).orElseThrow(() -> new IllegalArgumentException(errMsg + id));
+
+        return new PostsResponseDto(entity);
+    }
+
+    /**
      * Post조회
      * @param id ID
      * @return postsResponseDto
      * */
-    public PostsResponseDto findById(Long id) {
+    public PostsResponseDto findAllPost(Long id) {
         Posts entity = postsRepo.findById(id).orElseThrow(() -> new IllegalArgumentException(errMsg + id));
 
-        return new PostsResponseDto(entity);
+        return null;
     }
 }

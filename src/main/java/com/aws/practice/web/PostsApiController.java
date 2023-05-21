@@ -33,12 +33,21 @@ public class PostsApiController {
     }
 
     /**
-     * PostId조회
+     * Post조회(단건)
      * @param id ID
      * */
     @GetMapping("/posts/{id}")
     public PostsResponseDto findById(@PathVariable Long id){
-        return postsServ.findById(id);
+        return postsServ.findByPostId(id);
+    }
+
+    /**
+     * PostId조회
+     * @param id ID
+     * */
+    @GetMapping("/posts")
+    public PostsResponseDto findAllPost(@PathVariable Long id){
+        return null;
     }
 
 }
