@@ -26,13 +26,32 @@ public class PostsApiController {
     }
 
     /**
+     * Repl등록
+     * @param reqDto request
+     * */
+    @PostMapping("/c-repls/{postId}")
+    public Long createRepl(@PathVariable Long postId, @RequestBody ReplsSaveRequestDto reqDto){
+        return postsServ.createRepl(postId, reqDto);
+    }
+
+    /**
      * Post수정
      * @param postId postId
      * @param reqDto request
      * */
     @PutMapping("/u-posts/{postId}")
-    public Long update(@PathVariable Long postId, @RequestBody PostsUpdateRequestDto reqDto){
-        return postsServ.update(postId, reqDto);
+    public Long updatePosts(@PathVariable Long postId, @RequestBody PostsUpdateRequestDto reqDto){
+        return postsServ.updatePost(postId, reqDto);
+    }
+
+    /**
+     * Post삭제
+     * @param postId postId
+     * @param reqDto request
+     * */
+    @PutMapping("/d-posts/{postId}")
+    public Long deletePosts(@PathVariable Long postId, @RequestBody PostsUpdateRequestDto reqDto){
+        return postsServ.deletePost(postId, reqDto);
     }
 
     /**
@@ -54,12 +73,5 @@ public class PostsApiController {
         return postsServ.findAllPost();
     }
 
-    /**
-     * Repl등록
-     * @param reqDto request
-     * */
-    @PostMapping("/c-repls/{postId}")
-    public Long createRepl(@PathVariable Long postId, @RequestBody ReplsSaveRequestDto reqDto){
-        return postsServ.createRepl(postId, reqDto);
-    }
+
 }
