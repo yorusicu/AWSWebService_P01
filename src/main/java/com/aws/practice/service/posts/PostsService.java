@@ -34,6 +34,27 @@ public class PostsService {
     }
 
     /**
+     * Repl등록
+     *
+     * @param reqDto request
+     */
+    @Transactional
+    public Long createRepl(Long postId, ReplsSaveRequestDto reqDto) {
+        log.info("postId: {}", postId);
+        log.info("ReqDto: {}", reqDto);
+        // Posts 조회
+        Posts posts = postsRepo.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException((errMsg + postId)));
+
+        Repls repls = reqDto.toEntity(posts, reqDto.getDelYn());
+        log.info("repls.getPostId(): {}", repls.getPosts().getPostId());
+
+        Repls saveRepl = replsRepo.save(repls);
+
+        return saveRepl.getReplId();
+    }
+
+    /**
      * Post수정
      *
      * @param postId postId
@@ -41,9 +62,35 @@ public class PostsService {
      * @return id
      */
     @Transactional
-    public Long update(Long postId, PostsUpdateRequestDto reqDto) {
+    public Long updatePost(Long postId, PostsUpdateRequestDto reqDto) {
         // DB에 id를 조회해 없으면 에러메세지를 띄움
         Posts posts = postsRepo.findById(postId).orElseThrow(() -> new IllegalArgumentException((errMsg + postId)));
+
+        posts.updatePost(reqDto.getTitle(), reqDto.getContent());
+
+        return postId;
+    }
+
+    /**
+     * Post삭제
+     *
+     * @param postId postId
+     * @param reqDto request
+     * @return id
+     */
+    @Transactional
+    public Long deletePost(Long postId, PostsUpdateRequestDto reqDto) {
+        // DB에 id를 조회해 없으면 에러메세지를 띄움
+        Posts posts = postsRepo.findById(postId).orElseThrow(() -> new IllegalArgumentException((errMsg + postId)));
+        // 게시글의 댓글있는지 조회
+//        List<Repls> repls = replsRepo.findByPostId(postId);
+        // 게시글의 좋아요가 있는지 조회
+
+        // 좋아요가 있을 경우 삭제
+
+        // 댓글이 있을 경우 댓글에 삭제여부를 Y로 정하고 수정
+
+        // 게시글의 삭제여부를 Y로 정하고 삭제
 
         posts.updatePost(reqDto.getTitle(), reqDto.getContent());
 
@@ -120,24 +167,6 @@ public class PostsService {
         return list;
     }
 
-    /**
-     * Repl등록
-     *
-     * @param reqDto request
-     */
-    @Transactional
-    public Long createRepl(Long postId, ReplsSaveRequestDto reqDto) {
-        log.info("postId: {}", postId);
-        log.info("ReqDto: {}", reqDto);
-        // Posts 조회
-        Posts posts = postsRepo.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException((errMsg + postId)));
 
-        Repls repls = reqDto.toEntity(posts);
-        log.info("repls.getPostId(): {}", repls.getPosts().getPostId());
 
-        Repls saveRepl = replsRepo.save(repls);
-
-        return saveRepl.getReplId();
-    }
 }

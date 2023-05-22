@@ -6,6 +6,7 @@ import com.aws.practice.domain.posts.Repls;
 import com.aws.practice.domain.posts.ReplsRepository;
 import com.aws.practice.web.dto.PostsResponseDto;
 import com.aws.practice.web.dto.ReplsResponseDto;
+import com.aws.practice.web.dto.ReplsSaveRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -101,4 +102,43 @@ class PostsServiceTest {
         log.info("list:{}", list);
     }
 
+    @Transactional
+    @Test
+    void deletePost() {
+        // given
+        Long postId = 5L;
+
+        // when
+        // DB에 id를 조회해 없으면 에러메세지를 띄움
+        Posts posts = postsRepo.findById(postId).orElseThrow(() -> new IllegalArgumentException(("error" + postId)));
+
+        // 게시글의 댓글있는지 조회
+        List<Repls> repls = replsRepo.findByPostId(postId);
+        List<ReplsSaveRequestDto> replsSaveRequestDtos = new ArrayList<>();
+        repls.stream().forEach(repls1 -> {
+//            log.info("repls1 : {}", repls1);
+            ReplsSaveRequestDto dto = new ReplsSaveRequestDto().builder()
+                    .postId(repls1.getPostId())
+                    .replId(repls1.getReplId())
+                    .content(repls1.getContent())
+                    .author(repls1.getAuthor())
+                    .delYn("Y")
+                    .build();
+            replsSaveRequestDtos.add(dto);
+        });
+        log.info("replsSaveRequestDtos : {}",replsSaveRequestDtos);
+        // 게시글의 좋아요가 있는지 조회
+
+        // 댓글이 있을 경우 댓글에 삭제여부를 Y로 정하고 수정
+
+        // then
+        // 좋아요가 있을 경우 삭제
+
+
+
+
+        // 게시글의 삭제여부를 Y로 정하고 삭제
+
+//        posts.updatePost(reqDto.getTitle(), reqDto.getContent());
+    }
 }

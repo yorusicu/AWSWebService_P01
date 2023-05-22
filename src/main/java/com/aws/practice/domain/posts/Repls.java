@@ -26,16 +26,20 @@ public class Repls extends BaseEntity {
     @Column(name = "AUTHOR")
     private String author;
 
+    @Column(name = "DEL_YN")
+    private String delYn;
+
     @MapsId("POST_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_ID", referencedColumnName = "POST_ID", nullable = false)
     private Posts posts;
 
     @Builder
-    public Repls(String content, String author, Posts posts) {
+    public Repls(String content, String author, Posts posts, String delYn) {
         this.content = content;
         this.author = author;
         this.posts = posts;
+        this.delYn = delYn;
         this.postId = posts.getPostId();
     }
 }
