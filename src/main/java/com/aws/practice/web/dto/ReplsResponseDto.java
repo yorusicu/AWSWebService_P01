@@ -8,7 +8,7 @@ import lombok.ToString;
 @ToString
 @Setter
 @Getter
-public class ReplsResponseDto {
+public class ReplsResponseDto implements Comparable<ReplsResponseDto> {
     private Long replId;
     private Long postId;
     private String content;
@@ -16,8 +16,12 @@ public class ReplsResponseDto {
 
     public ReplsResponseDto(Repls entity) {
         this.replId = entity.getReplId();
-//        this.postId = entity.getPostId();
         this.content = entity.getContent();
         this.author = entity.getAuthor();
+    }
+
+    @Override
+    public int compareTo(ReplsResponseDto replResDto) {
+        return this.getReplId().compareTo(replResDto.getReplId()) * -1;
     }
 }

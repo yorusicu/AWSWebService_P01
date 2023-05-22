@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -24,8 +25,9 @@ public class PostsService {
 
     /**
      * Post등록
+     *
      * @param reqDto request
-    * */
+     */
     @Transactional
     public Long createPost(PostsSaveRequestDto reqDto) {
         return postsRepo.save(reqDto.toEntity()).getPostId();
@@ -33,10 +35,11 @@ public class PostsService {
 
     /**
      * Post수정
+     *
      * @param postId postId
      * @param reqDto request
      * @return id
-     * */
+     */
     @Transactional
     public Long update(Long postId, PostsUpdateRequestDto reqDto) {
         // DB에 id를 조회해 없으면 에러메세지를 띄움
@@ -49,9 +52,10 @@ public class PostsService {
 
     /**
      * Post조회(단건)
+     *
      * @param postId postId
      * @return postsResponseDto
-     * */
+     */
     public PostsResponseDto findByPostId(Long postId) {
         Posts entity = postsRepo.findById(postId).orElseThrow(() -> new IllegalArgumentException(errMsg + postId));
 
@@ -60,8 +64,9 @@ public class PostsService {
 
     /**
      * Post조회
+     *
      * @return List<PostsResponseDto>
-     * */
+     */
     public List<PostsResponseDto> findAllPost() {
         // 1:N으로 전체조회
         List<Posts> postsList = postsRepo.findAll();
@@ -92,10 +97,24 @@ public class PostsService {
 
                 rlist.add(replDto);
             }
+
+            // ReplsResponseDto 안에 Comparable를 implements해줌
+            Collections.sort(rlist);
+
+            // replsList를 replId로 desc
+//            Collections.sort(rlist, new Comparator<ReplsResponseDto>() {
+//                @Override
+//                public int compare(ReplsResponseDto o1, ReplsResponseDto o2) {
+//                    return Long.compare(o2.getReplId(), o1.getReplId());
+//                }
+//            });
+
             // entity > response 리스트로 변환
             list.add(dto);
             dto.setReplsList(rlist);
+
         }
+//
         log.info("list:{}", list);
 
         return list;
@@ -103,8 +122,9 @@ public class PostsService {
 
     /**
      * Repl등록
+     *
      * @param reqDto request
-     * */
+     */
     @Transactional
     public Long createRepl(Long postId, ReplsSaveRequestDto reqDto) {
         log.info("postId: {}", postId);
