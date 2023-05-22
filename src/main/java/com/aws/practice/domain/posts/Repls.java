@@ -1,5 +1,6 @@
 package com.aws.practice.domain.posts;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,9 @@ public class Repls extends BaseEntity {
     @Column(name = "REPL_ID")
     private Long replId;
 
+    @Column(name = "POST_ID", nullable = false)
+    private Long postId;
+
     @Column(name = "CONTENT", columnDefinition = "TEXT", nullable = false)
     private String content;
 
@@ -26,4 +30,12 @@ public class Repls extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_ID", referencedColumnName = "POST_ID", nullable = false)
     private Posts posts;
+
+    @Builder
+    public Repls(String content, String author, Posts posts) {
+        this.content = content;
+        this.author = author;
+        this.posts = posts;
+        this.postId = posts.getPostId();
+    }
 }
