@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,8 +27,8 @@ public class Members extends BaseEntity{
     @Column(name = "birth", length = 10)
     private String birth;
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Posts> post = new ArrayList<>();
+    @OneToMany(mappedBy = "members")
+    private List<Posts> post = new ArrayList<>();
 
     @Builder
     public Members(String name, String phone, String email, String birth) {

@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 @Rollback(value = false)
@@ -60,7 +62,10 @@ class MembersTest {
         // then
         for (Members members : findMembers) {
             System.out.println("members = " + members);
+            System.out.println("members = " + members.getPost());
         }
+
+        assertThat(members4.getMemberId()).isEqualTo(4);
 
     }
 }
